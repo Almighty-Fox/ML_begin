@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def read_file():
+def read_file():  # читаем точки из файла и заполняем массивы
     with open("kNN_data_2.txt", "r") as my_file:
         data_list = my_file.readlines()
 
@@ -16,12 +16,14 @@ def read_file():
     return list_x, list_y, list_klass
 
 
-def grafik(list_x, list_y, list_klass):
+def grafik(list_x, list_y, list_klass):  # строим расположение точек
+    plt.figure(1)
     plt.scatter(np.array(list_x), np.array(list_y), c=list_klass)
-    plt.show()
+    plt.title("Исходные точки")
+    # plt.show()
 
 
-def kNN_method(test_point, count_N, list_x, list_y, list_klass):
+def kNN_method(test_point, count_N, list_x, list_y, list_klass):  # при заданном количестве соседей определяем класс новой точки
     dist = [[], []]
     for ii in range(len(list_x)):
         dist[0].append(np.power((test_point[0] - list_x[ii])**2 + (test_point[1] - list_y[ii])**2, (1/2)))
@@ -36,7 +38,7 @@ def kNN_method(test_point, count_N, list_x, list_y, list_klass):
     return true_klass
 
 
-def kNN_optimization(list_x, list_y, list_klass):
+def kNN_optimization(list_x, list_y, list_klass):  # строим график зависимости процента угадывания классов исходных точек от количества ближайших соседей
     list_ug = np.zeros((len(list_x), len(list_x)-1))  # массив для хранения совпадения предсказания с истинным классом для каждой точки для всех количеств ближайших соседей
     for index in range(len(list_x)):  # начинаем цикл по всем точкам
         print("Обучение ", '%.1f' % ((index + 1)/len(list_x)*100), "%")  # процент обучения
@@ -55,10 +57,13 @@ def kNN_optimization(list_x, list_y, list_klass):
 if __name__ == "__main__":
     list_x, list_y, list_klass = read_file()
     # count_N = 4
-    # grafik(list_x, list_y, list_klass)
+    grafik(list_x, list_y, list_klass)
     # test_point = [2.4928867110688597, 3.141029945902531]
     # true_klass = kNN_method(test_point, count_N, list_x, list_y, list_klass)
     # print("Класс точки ", true_klass)
     ver = kNN_optimization(list_x, list_y, list_klass)
+    plt.figure(2)
     plt.scatter(range(len(list_x)-1), ver)
+    plt.xlabel("Количество ближайших соседей")
+    plt.ylabel("Вероятность угадывания")
     plt.show()

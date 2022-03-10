@@ -31,4 +31,4 @@ def showData(nClasses, nItemsInClass):
 
 
 if __name__ == "__main__":
-    showData(3, 80)
+    showData(3, 20)
