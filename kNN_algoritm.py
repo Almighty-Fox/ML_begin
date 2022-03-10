@@ -3,7 +3,7 @@ import numpy as np
 
 
 def read_file():
-    with open("kNN_data.txt", "r") as my_file:
+    with open("kNN_data_2.txt", "r") as my_file:
         data_list = my_file.readlines()
 
     list_x, list_y, list_klass = [], [], []

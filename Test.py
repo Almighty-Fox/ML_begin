@@ -20,7 +20,7 @@ def generateData(numberOfClassEl, numberOfClasses):
 def showData(nClasses, nItemsInClass):
     trainData = generateData(nItemsInClass, nClasses)
 
-    with open("kNN_data.txt", "w") as file:
+    with open("kNN_data_2.txt", "w") as file:
         for i in range(len(trainData)):
             file.write(str(trainData[i][0][0]) + " " + str(trainData[i][0][1]) + " " + str(trainData[i][1]) + "\n")
 
