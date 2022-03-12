@@ -13,14 +13,14 @@ def generateData(numberOfClassEl, numberOfClasses):
         centerX, centerY = random.random() * 5.0, random.random() * 5.0
         # Choose numberOfClassEl random nodes with RMS=0.5
         for rowNum in range(numberOfClassEl):
-            data.append([[random.gauss(centerX, 0.9), random.gauss(centerY, 0.9)], classNum])
+            data.append([[random.gauss(centerX, 0.4), random.gauss(centerY, 0.4)], classNum])
     return data
 
 
 def showData(nClasses, nItemsInClass):
     trainData = generateData(nItemsInClass, nClasses)
 
-    with open("kNN_data_2.txt", "w") as file:
+    with open("kNN_data_3.txt", "w") as file:
         for i in range(len(trainData)):
             file.write(str(trainData[i][0][0]) + " " + str(trainData[i][0][1]) + " " + str(trainData[i][1]) + "\n")
 
@@ -31,4 +31,4 @@ def showData(nClasses, nItemsInClass):
 
 
 if __name__ == "__main__":
-    showData(3, 20)
+    showData(5, 100)

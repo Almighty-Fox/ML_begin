@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 def read_file():  # читаем точки из файла и заполняем массивы
@@ -54,16 +55,42 @@ def kNN_optimization(list_x, list_y, list_klass):  # строим график �
     return ver
 
 
+def check_test(X_test, Y_test, list_klass_test, X_train, Y_train, list_klass_train):
+    count_N = 50
+    test_ver = 0
+    for i in range(len(X_test)):
+        true_klass = kNN_method([X_test[i], Y_test[i]], count_N, X_train, Y_train, list_klass_train)
+        if true_klass == list_klass_test[i]:
+            test_ver += 1
+
+    return test_ver / len(X_test) * 100
+
+
 if __name__ == "__main__":
     list_x, list_y, list_klass = read_file()
     # count_N = 4
     grafik(list_x, list_y, list_klass)
-    # test_point = [2.4928867110688597, 3.141029945902531]
-    # true_klass = kNN_method(test_point, count_N, list_x, list_y, list_klass)
-    # print("Класс точки ", true_klass)
-    ver = kNN_optimization(list_x, list_y, list_klass)
+    ''' # Определяем класс точки test_point
+    test_point = [2.4928867110688597, 3.141029945902531]
+    true_klass = kNN_method(test_point, count_N, list_x, list_y, list_klass)
+    print("Класс точки ", true_klass)
+    '''
+    # делим набор точек на тестовый и тренировочный
+    XY_train, XY_test, list_klass_train, list_klass_test = train_test_split(list(zip(list_x, list_y)), list_klass, test_size=0.2,
+                                                          random_state=2)
+    X_train = list(map(lambda x: x[0], XY_train))
+    Y_train = list(map(lambda x: x[1], XY_train))
+    X_test = list(map(lambda x: x[0], XY_test))
+    Y_test = list(map(lambda x: x[1], XY_test))
+
+    ''' # определяем оптимальное количество соседей
+    ver = kNN_optimization(X_train, Y_train, list_klass_train)
     plt.figure(2)
     plt.scatter(range(len(list_x)-1), ver)
     plt.xlabel("Количество ближайших соседей")
     plt.ylabel("Вероятность угадывания")
     plt.show()
+    '''
+
+    accuracy = check_test(X_test, Y_test, list_klass_test, X_train, Y_train, list_klass_train)
+    print("Точность угадывания {0:.1f} %".format(accuracy))
